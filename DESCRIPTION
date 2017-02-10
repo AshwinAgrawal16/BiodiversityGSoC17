@@ -1,0 +1,15 @@
+Package: BiodiversityGSoC17
+Type: Package
+Title: Integrating biodiversity data curation functionality.
+Version: 0.1.0
+Author: Ashwin Agrawal
+Maintainer: <ashwin.agrawal.met14@itbhu.ac.in>
+Description: Integrating biodiversity data curation functionality.
+License: IIT BHU
+LazyData: TRUE
+RoxygenNote: 6.0.1
+URL: https://github.com/AshwinAgrawal16/BiodiversityGSoC17
+BugReports: https://github.com/AshwinAgrawal16/BiodiversityGSoC17/issues
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr

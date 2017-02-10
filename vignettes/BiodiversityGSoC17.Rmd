@@ -1,0 +1,105 @@
+---
+title: "Integrating biodiversity data curation functionality."
+author: "ASHWIN AGRAWAL"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+#Introduction
+The Geospatial Quality API (GQ API) is a REST API created to provide access to a set of basic geospatial assessment functions over sets of primary biodiversity records.
+This package, rgeospatialquality, is built as a wrapper for the GQ API.
+It provides native access to the methods of the API and allows to use its functions from within an R environment.
+Below I will use the , rgeospatialquality,and ,rgbif, package to retrieve occurence data and send it the GQ API.
+
+
+
+## About Package
+
+In this documentation there is a single function which retrieves GBIF occurrence data
+of all terrestrial mammals in Australia and then sends all of them to the Geospatial Quality API.
+The function code is below.
+
+```c
+FUNCTION<-function(){
+
+  if(requireNamespace("rgbif", quietly = TRUE)){
+    library(rgbif)
+
+    d1 <- occ_data(
+      country = "AU",     # Country code for australia
+      classKey= 359,      # Class code for mammalia
+      from = 'gbif',
+      limit=500,
+      minimal=FALSE
+    )
+  }
+
+
+  if(requireNamespace("rgbif", quietly = TRUE)){
+    d1 <- d1$data
+    str(d1)
+  }
+
+
+
+  #Checking the values to conform to the DarwinCore Standard
+
+  #decimalLatitude: Value for the Latitude in decimal degrees format (e.g. 42.332)
+  #decimalLongitude: Value for the Longitude in decimal degrees format (e.g. -1.833)
+  #countryCode: 2 character ISO code for the country
+  #scientificName
+
+
+  if(requireNamespace("rgbif", quietly = TRUE)){
+    "decimalLatitude" %in% names(d1)
+    "decimalLongitude" %in% names(d1)
+    "countryCode" %in% names(d1)
+    "scientificName" %in% names(d1)
+  }
+
+
+
+  #Pushing the data to Geospatial Quality API.
+
+  library(rgeospatialquality)
+
+  if(requireNamespace("rgbif", quietly = TRUE)){
+    dd1 <- add_flags(d1)
+    str(dd1)
+    dd1[1,]$flags  # Flags for the first record
+  }
+
+  #End
+
+}
+```
+
+
+
+## Plotting mammales occurence data in australia
+
+Terrestrial mammals in Australia.
+```{r, fig.show='hold',fig.width = 5 ,fig.height = 5 }
+library(rgbif)
+library(maptools)
+d1 <- occ_data(
+  country = "AU",     # Country code for australia
+  classKey= 359,      # Class code for mammalia
+  from = 'gbif',
+  limit=500,
+  minimal=FALSE
+)
+
+d1 <- d1$data
+View(d1)
+plot(d1[,4:3], cex=1.0, col='blue')
+data(wrld_simpl)
+plot(wrld_simpl, add=TRUE)
+```
+
+The above map is of australia with location of terrestrial mammals on it.
+

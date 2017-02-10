@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="ASHWIN AGRAWAL" />
+
+<meta name="date" content="2017-02-10" />
+
+<title>Integrating biodiversity data curation functionality.</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Integrating biodiversity data curation functionality.</h1>
+<h4 class="author"><em>ASHWIN AGRAWAL</em></h4>
+<h4 class="date"><em>2017-02-10</em></h4>
+
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>The Geospatial Quality API (GQ API) is a REST API created to provide access to a set of basic geospatial assessment functions over sets of primary biodiversity records. This package, rgeospatialquality, is built as a wrapper for the GQ API. It provides native access to the methods of the API and allows to use its functions from within an R environment. Below I will use the , rgeospatialquality,and ,rgbif, package to retrieve occurence data and send it the GQ API.</p>
+<div id="about-package" class="section level2">
+<h2>About Package</h2>
+<p>In this documentation there is a single function which retrieves GBIF occurrence data of all terrestrial mammals in Australia and then sends all of them to the Geospatial Quality API. The function code is below.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">FUNCTION&lt;-function(){
+
+  <span class="cf">if</span>(requireNamespace(<span class="st">&quot;rgbif&quot;</span>, quietly = TRUE)){
+    library(rgbif)
+
+    d1 &lt;- occ_data(
+      country = <span class="st">&quot;AU&quot;</span>,     # Country code <span class="cf">for</span> australia
+      classKey= <span class="dv">359</span>,      # Class code <span class="cf">for</span> mammalia
+      from = 'gbif',
+      limit=<span class="dv">500</span>,
+      minimal=FALSE
+    )
+  }
+
+
+  <span class="cf">if</span>(requireNamespace(<span class="st">&quot;rgbif&quot;</span>, quietly = TRUE)){
+    d1 &lt;- d1$data
+    str(d1)
+  }
+
+
+
+  <span class="er">#Checking the values to conform to the DarwinCore Standard</span>
+
+  <span class="er">#decimalLatitude: Value for the Latitude in decimal degrees format (e.g. 42.332)</span>
+  <span class="er">#decimalLongitude: Value for the Longitude in decimal degrees format (e.g. -1.833)</span>
+  <span class="er">#countryCode: 2 character ISO code for the country</span>
+  <span class="er">#scientificName</span>
+
+
+  <span class="cf">if</span>(requireNamespace(<span class="st">&quot;rgbif&quot;</span>, quietly = TRUE)){
+    <span class="st">&quot;decimalLatitude&quot;</span> %in% names(d1)
+    <span class="st">&quot;decimalLongitude&quot;</span> %in% names(d1)
+    <span class="st">&quot;countryCode&quot;</span> %in% names(d1)
+    <span class="st">&quot;scientificName&quot;</span> %in% names(d1)
+  }
+
+
+
+  <span class="er">#Pushing the data to Geospatial Quality API.</span>
+
+  library(rgeospatialquality)
+
+  <span class="cf">if</span>(requireNamespace(<span class="st">&quot;rgbif&quot;</span>, quietly = TRUE)){
+    dd1 &lt;- add_flags(d1)
+    str(dd1)
+    dd1[<span class="dv">1</span>,]$flags  # Flags <span class="cf">for</span> the first record
+  }
+
+  <span class="er">#End</span>
+
+}</code></pre></div>
+</div>
+<div id="plotting-mammales-occurence-data-in-australia" class="section level2">
+<h2>Plotting mammales occurence data in australia</h2>
+<p>Terrestrial mammals in Australia.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rgbif)
+<span class="kw">library</span>(maptools)</code></pre></div>
+<pre><code>## Loading required package: sp</code></pre>
+<pre><code>## Checking rgeos availability: TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d1 &lt;-<span class="st"> </span><span class="kw">occ_data</span>(
+  <span class="dt">country =</span> <span class="st">&quot;AU&quot;</span>,     <span class="co"># Country code for australia</span>
+  <span class="dt">classKey=</span> <span class="dv">359</span>,      <span class="co"># Class code for mammalia</span>
+  <span class="dt">from =</span> <span class="st">'gbif'</span>,
+  <span class="dt">limit=</span><span class="dv">500</span>,
+  <span class="dt">minimal=</span><span class="ot">FALSE</span>
+)
+
+d1 &lt;-<span class="st"> </span>d1<span class="op">$</span>data
+<span class="kw">View</span>(d1)
+<span class="kw">plot</span>(d1[,<span class="dv">4</span><span class="op">:</span><span class="dv">3</span>], <span class="dt">cex=</span><span class="fl">1.0</span>, <span class="dt">col=</span><span class="st">'blue'</span>)
+<span class="kw">data</span>(wrld_simpl)
+<span class="kw">plot</span>(wrld_simpl, <span class="dt">add=</span><span class="ot">TRUE</span>)</code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>The above map is of australia with location of terrestrial mammals on it.</p>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
