@@ -80,7 +80,7 @@ FUNCTION<-function(){
 
 
 
-## Plotting mammales occurence data in australia
+## Plotting mammals occurence data in australia
 
 Terrestrial mammals in Australia.
 ```{r, fig.show='hold',fig.width = 5 ,fig.height = 5 }
