@@ -3,7 +3,6 @@
 #' @description
 #' \code{FUNCTION} Function to retrieve GBIF occurrence data of all terrestrial mammals in Australia and then sends all of them to the Geospatial Quality API.
 #'
-#' @param empty
 #' @return Returns the data retrieved in string format and the pushed data to Geospatial Quality API.
 #' @examples
 #' FUNCTION()
