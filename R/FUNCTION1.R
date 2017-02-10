@@ -10,7 +10,6 @@
 #' @export
 
 FUNCTION<-function(){
-
   if(requireNamespace("rgbif", quietly = TRUE)){
     library(rgbif)
 
@@ -23,21 +22,16 @@ FUNCTION<-function(){
     )
   }
 
-
   if(requireNamespace("rgbif", quietly = TRUE)){
     d1 <- d1$data
     str(d1)
   }
 
-
-
   #Checking the values to conform to the DarwinCore Standard
-
   #decimalLatitude: Value for the Latitude in decimal degrees format (e.g. 42.332)
   #decimalLongitude: Value for the Longitude in decimal degrees format (e.g. -1.833)
   #countryCode: 2 character ISO code for the country
   #scientificName
-
 
   if(requireNamespace("rgbif", quietly = TRUE)){
     "decimalLatitude" %in% names(d1)
@@ -46,18 +40,13 @@ FUNCTION<-function(){
     "scientificName" %in% names(d1)
   }
 
-
-
   #Pushing the data to Geospatial Quality API.
 
   library(rgeospatialquality)
-
   if(requireNamespace("rgbif", quietly = TRUE)){
     dd1 <- add_flags(d1)
     str(dd1)
     dd1[1,]$flags  # Flags for the first record
   }
-
   #End
-
 }
