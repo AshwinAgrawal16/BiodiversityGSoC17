@@ -16,17 +16,14 @@ FUNCTION<-function(){
       country = "AU",     # Country code for australia
       classKey= 359,      # Class code for mammalia
       from = 'gbif',
-      limit=1000,
+      limit=5000,
       minimal=FALSE
     )
   }
 
   if(requireNamespace("rgbif", quietly = TRUE)){
     d1 <- d1$data
-
-
   }
-
 
   j<-which(is.na(d1[,"decimalLatitude"]))    #Checking decimalLatitude for NA values
   k<-which(is.na(d1[,"decimalLongitude"]))   #Checking decimalLongitude for NA values
@@ -69,10 +66,21 @@ FUNCTION<-function(){
   #Pushing the data to Geospatial Quality API.
   #Hard limit of 1000 is set in the function add_flags.
   library(rgeospatialquality)
-  if(requireNamespace("rgbif", quietly = TRUE)){
-    dd1 <- add_flags(d1)
-    str(dd1)
-    dd1[1,]$flags  # Flags for the first record
+  if(requireNamespace("rgbif")){
+    i=0
+    while(i<=4000)
+    {
+      if(i+1000>nrow(d1))
+        dat<-subset(d1[(i+1):nrow(d1),])
+      if(i+1000<=nrow(d1))
+        dat<-subset(d1[(i+1):(i+1000),])
+      
+      
+      dd1 <- add_flags(dat)
+      #str(dd1)
+      dd1[1,]$flags    ## Flags for the first record
+      i=i+1000
+    }
   }
   #End
 }
