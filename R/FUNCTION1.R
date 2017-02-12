@@ -60,10 +60,10 @@ FUNCTION<-function(){
   #scientificName
 
   if(requireNamespace("rgbif", quietly = TRUE)){
-    "decimalLatitude" %in% names(D1)
-    "decimalLongitude" %in% names(D1)
-    "countryCode" %in% names(D1)
-    "scientificName" %in% names(D1)
+    "decimalLatitude" %in% names(d1)
+    "decimalLongitude" %in% names(d1)
+    "countryCode" %in% names(d1)
+    "scientificName" %in% names(d1)
   }
 
   #Pushing the data to Geospatial Quality API.
