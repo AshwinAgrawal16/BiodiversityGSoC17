@@ -11,51 +11,39 @@
 FUNCTION<-function(){
   if(requireNamespace("rgbif", quietly = TRUE)){
     library(rgbif)
-
+    
     d1 <- occ_data(
       country = "AU",     # Country code for australia
       classKey= 359,      # Class code for mammalia
       from = 'gbif',
       limit=5000,
-      minimal=FALSE
+      minimal=FALSE,
+      hasCoordinate = T
+      
     )
   }
-
+  
   if(requireNamespace("rgbif", quietly = TRUE)){
     d1 <- d1$data
   }
-
-  j<-which(is.na(d1[,"decimalLatitude"]))    #Checking decimalLatitude for NA values
-  k<-which(is.na(d1[,"decimalLongitude"]))   #Checking decimalLongitude for NA values
-  i<-which(is.na(d1[,"name"]))               #Checking name for NA values
-  l<-which(is.na(d1[,"countryCode"]))        #Checking countrycode for NA values
-  r<-which(is.na(d1[,"scientificName"]))
-  if(length(i)!=0)
-    d1<-d1[-i,]
-  if(length(k)!=0)
-    d1<-d1[-k,]
-  if(length(j)!=0)
-    d1<-d1[-j,]
-  if(length(l)!=0)
-    d1<-d1[-l,]
-  if(length(r)!=0)
-    d1<-d1[-r,]
-
-
+  
+  
+  ## Cleaning the data .
+  library(tidyr)
+  d1<-d1 %>% drop_na(decimalLatitude,decimalLongitude,countryCode,scientificName,name)
+  
+  d1$scientificName<-d1$name
   #Caveat: while the API accepts scientific names as specified in the DarwinCore Standard, currently some tools only work if the "Genus"+"Specific Epithet" binomial is provided in this field.
   #Thus, instead of "Puma concolor (Linnaeus, 1771)", we recommend using just "Puma concolor" in the 'scientificName' field.
   #To follow the abve code copying the name to scientificName column
-  for(i in 1:nrow(d1))
-  {
-    d1[i,"scientificName"]=d1[i,"name"]
-  }
-
+  
+  
   #Checking the values to conform to the DarwinCore Standard
   #decimalLatitude: Value for the Latitude in decimal degrees format (e.g. 42.332)
   #decimalLongitude: Value for the Longitude in decimal degrees format (e.g. -1.833)
   #countryCode: 2 character ISO code for the country
   #scientificName
-
+  
   if(requireNamespace("rgbif", quietly = TRUE)){
     "decimalLatitude" %in% names(d1)
     "decimalLongitude" %in% names(d1)
@@ -65,6 +53,7 @@ FUNCTION<-function(){
 
   #Pushing the data to Geospatial Quality API.
   #Hard limit of 1000 is set in the function add_flags.
+  d5<-data.frame()
   library(rgeospatialquality)
   if(requireNamespace("rgbif")){
     i=0
@@ -75,12 +64,17 @@ FUNCTION<-function(){
       if(i+1000<=nrow(d1))
         dat<-subset(d1[(i+1):(i+1000),])
       
-      
-      dd1 <- add_flags(dat)
-      #str(dd1)
-      dd1[1,]$flags    ## Flags for the first record
       i=i+1000
+      
+      ddd1 <- (add_flags(dat))
+      ##Appending the data of flags in ome whole data frame
+      d5<-rbind(d5,ddd1$flags)
+      
     }
   }
+  
+  ##Appending the flagged data with original data.
+  D<-cbind(d5,d1)
+  View(D)
   #End
 }
