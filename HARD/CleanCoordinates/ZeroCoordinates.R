@@ -28,7 +28,7 @@ if (zeros) {
       if (verbose) {
         cat("running zero coordinate test\n")
       }
-      zer <- ZeroCoordinates(x, pointlim = zeros.rad)
+      zer <- ZeroCoordinates(x, pointlimit = zeros.rad)   #zeros.rad=reference data
       if (verbose) {
         cat(sprintf("flagged %s records \n", sum(!zer)))
       }
