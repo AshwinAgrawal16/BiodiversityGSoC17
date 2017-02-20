@@ -10,3 +10,14 @@ ValidCoordinates <- function(x) {
   out <- !Reduce("|", out)
   return(out)
 }
+
+#Driver
+if (verbose) {
+      cat("running validity test\n")
+    }
+    val <- ValidCoordinates(x)
+    
+    if (!all(val)) {
+      stop("invalid coordinates found, clean dataset before further tests:\n", 
+           paste(which(val == FALSE), "\n"))
+    }
