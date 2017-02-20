@@ -25,7 +25,7 @@ if (urban) {
       if (verbose) {
         cat("running urban test\n")
       }
-      urb <- .UrbanCoordinates(x, poly = urban.ref)
+      urb <-UrbanCoordinates(x, poly = urban.ref)
       if (verbose) {
         cat(sprintf("flagged %s records \n", sum(!urb)))
       }
