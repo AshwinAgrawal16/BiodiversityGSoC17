@@ -18,3 +18,18 @@ UrbanCoordinates <- function(x, ref = NULL) {
   
   return(out)
 }
+
+#Driver script
+#Urban and verbose by defalut true
+if (urban) {
+      if (verbose) {
+        cat("running urban test\n")
+      }
+      urb <- .UrbanCoordinates(x, poly = urban.ref)
+      if (verbose) {
+        cat(sprintf("flagged %s records \n", sum(!urb)))
+      }
+    } else {
+      urb <- rep(NA, dim(x)[1])
+    }
+#urb contains flagged records
