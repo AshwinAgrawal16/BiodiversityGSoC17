@@ -1,3 +1,8 @@
+library(sp)
+library(raster)
+library(rgeos)
+library(rgbif)
+
 CentroidCoordinatesTest <- function(x, testdist = 0.1, buf = 1, testtype = c("both", "country", "provinces"), refData = NULL) {
   data <- sp::SpatialPoints(x) # Using sp package to convert to spatial points.
   if (is.null(refData)) {
