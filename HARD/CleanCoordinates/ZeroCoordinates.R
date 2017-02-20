@@ -1,3 +1,8 @@
+library(sp)
+library(raster)
+library(rgeos)
+library(rgbif)
+
 ZeroCoordinates <- function(x, pointlimit = 0.5) {
   pt <- sp::SpatialPoints(x)
   out <- rep(T, nrow(x))
