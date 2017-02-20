@@ -1,3 +1,8 @@
+library(sp)
+library(raster)
+library(rgeos)
+library(rgbif)
+
 #pol is the refernece data for country coordinates.
 Country <- function(x, countries, pol = NULL) {
   if (!requireNamespace("rnaturalearth", quietly = TRUE)) {
