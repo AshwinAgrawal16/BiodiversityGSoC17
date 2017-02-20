@@ -1,3 +1,8 @@
+library(sp)
+library(raster)
+library(rgeos)
+library(rgbif)
+
 UrbanCoordinates <- function(x, ref = NULL) {
   pts <- SpatialPoints(x)
   limits <- extent(pts) + 1
