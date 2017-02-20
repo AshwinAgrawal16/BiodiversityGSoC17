@@ -33,3 +33,26 @@ CentroidCoordinatesTest <- function(x, testdist = 0.1, buf = 1, testtype = c("bo
   
   return(out)
 }
+
+#Driver 
+#Checking if missing centroid data
+  if(missing(centRef)){
+    centRef <- NULL
+  }
+
+
+  if (centroids) {
+    if (index) {
+      cat("Running centroids test on the coordinates\n")
+    }
+    #Calling of function
+    cent <-CentroidCoordinatesTest(x, testdist = centRad, buf = 1,
+                                testtype = centDetail, refData = centRef)
+    if (index) {
+      cat(sprintf("Flagged %s records from the data \n", sum(!cent)))
+    }
+  } else {
+    cent <- rep(NA, nrow(x))
+  }
+}
+#cent contains flagged records
