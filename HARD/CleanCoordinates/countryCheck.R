@@ -24,3 +24,18 @@ Country <- function(x, countries, pol = NULL) {
   
   return(out)
 }
+
+
+#Driver
+if (countrycheck) {
+      if (verbose) {
+        cat("running countrycheck test\n")
+      }
+      con <-CountryCheck(x, countries, pol = country.ref)   #country.ref is reference data
+      if (verbose) {
+        cat(sprintf("flagged %s records \n", sum(!con, na.rm = T)))
+      }
+    } else {
+      con <- rep(NA, dim(x)[1])
+    }
+#con contains flagged records
