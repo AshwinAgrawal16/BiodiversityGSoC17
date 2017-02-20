@@ -19,3 +19,20 @@ ZeroCoordinates <- function(x, pointlimit = 0.5) {
   
   return(out)
 } 
+
+#Example
+#By default zeros and verbose =true
+zeros=T
+verbose=T
+if (zeros) {
+      if (verbose) {
+        cat("running zero coordinate test\n")
+      }
+      zer <- ZeroCoordinates(x, pointlim = zeros.rad)
+      if (verbose) {
+        cat(sprintf("flagged %s records \n", sum(!zer)))
+      }
+    } else {
+      zer <- rep(NA, dim(x)[1])
+    }
+#zer is the flagged matrix
