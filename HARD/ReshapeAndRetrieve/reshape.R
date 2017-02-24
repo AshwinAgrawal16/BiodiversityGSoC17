@@ -1,6 +1,6 @@
 library(curl)
 temp <- tempfile()
-curl_download("http://gbif.vm.ntnu.no/ipt/archive.do?r=bear_island_testfishing&v=1.2", tmp)
+curl_download("http://gbif.vm.ntnu.no/ipt/archive.do?r=bear_island_testfishing&v=1.2", temp)
 
 unzip(temp, files = c("occurrence.txt","measurementorfact.txt"), list = F)
 occurrence <- read.table("occurrence.txt",sep="\t",header = T)
