@@ -1,4 +1,4 @@
-#Hepler function for displaying the map using shiny app
+#displaying the map using shiny app
 library(rgbif)
 library(mapr)
 map1 <- function(country,classKey){
