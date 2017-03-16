@@ -1,4 +1,4 @@
-#' EDGE scores of species in your eBird lists.
+#' EDGE scores of species
 #'
 #' \code{myedge} provides Evolutionarily Distinct and Globally Endangered (EDGE)
 #' species scores and rankings based on Jetz et al. (2014).
