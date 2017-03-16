@@ -19,10 +19,6 @@
 #' taxonomy being used. This is particularly important if species with
 #' relatively high ED values are considered multiple species by other authors;
 #' this can considerably change evolutionary distinctiveness estimates.
-#' Furthermore, the EDGE taxonomy is considerably different to that in eBird
-#' (the latter includes many recent splits and other revisions), and thus the
-#' matching of species between EDGE species and eBird species is imperfect, thus
-#' EDGE scores and rankings based on eBird might not be accurate.
 
 
 
